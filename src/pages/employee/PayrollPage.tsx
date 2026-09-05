@@ -26,7 +26,7 @@ export const PayrollPage: React.FC = () => {
   const [payrollHistory, setPayrollHistory] = useState<PayrollRecord[]>([]);
   const [selectedSlip, setSelectedSlip] = useState<PayrollRecord | null>(null);
 
-  useEffect(() => {
+  const refreshPayroll = () => {
     if (user) {
       const emp = dataService.getEmployeeById(user.employeeId);
       setEmployee(emp);
@@ -36,6 +36,12 @@ export const PayrollPage: React.FC = () => {
         setSelectedSlip(history[0]);
       }
     }
+  };
+
+  useEffect(() => {
+    refreshPayroll();
+    const unsub = dataService.subscribe(refreshPayroll);
+    return unsub;
   }, [user]);
 
   const salary = employee?.salaryStructure;

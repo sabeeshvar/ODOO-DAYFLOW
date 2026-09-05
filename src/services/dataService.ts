@@ -146,7 +146,9 @@ class DataService {
 
     let record: AttendanceRecord;
     if (existingIndex >= 0) {
-      list[existingIndex].checkIn = timeStr;
+      if (!list[existingIndex].checkIn) {
+        list[existingIndex].checkIn = timeStr;
+      }
       list[existingIndex].status = 'Present';
       record = list[existingIndex];
     } else {
@@ -168,7 +170,7 @@ class DataService {
     this.createNotification({
       userId: employeeId,
       title: 'Checked In Successfully',
-      message: `You checked in today at ${timeStr}. Have a great workday!`,
+      message: `You checked in today at ${record.checkIn}. Have a great workday!`,
       type: 'attendance'
     });
     this.notify();
@@ -183,10 +185,9 @@ class DataService {
     const list = this.getAttendance();
     const existingIndex = list.findIndex(a => a.employeeId === employeeId && a.date === todayStr);
 
-    if (existingIndex >= 0) {
+    if (existingIndex >= 0 && list[existingIndex].checkIn) {
       const record = list[existingIndex];
       record.checkOut = timeStr;
-      // calculate approximate working hours
       record.workingHours = 8.5; 
       localStorage.setItem(STORAGE_KEYS.ATTENDANCE, JSON.stringify(list));
       this.createNotification({

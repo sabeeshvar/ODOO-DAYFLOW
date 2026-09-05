@@ -45,6 +45,8 @@ export const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     refreshProfile();
+    const unsub = dataService.subscribe(refreshProfile);
+    return unsub;
   }, [user]);
 
   const handleSave = (e: React.FormEvent) => {

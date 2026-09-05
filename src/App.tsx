@@ -44,6 +44,7 @@ import { SettingsPage } from './pages/common/SettingsPage';
 // System Pages
 import { AccessDeniedPage } from './pages/system/AccessDeniedPage';
 import { NotFoundPage } from './pages/system/NotFoundPage';
+import { ErrorPage } from './pages/system/ErrorPage';
 
 const DashboardRedirect: React.FC = () => {
   const { role, isAuthenticated, isLoading } = useAuth();
@@ -72,6 +73,7 @@ function App() {
               <Route path="/privacy" element={<PrivacyPolicyPage />} />
               <Route path="/terms" element={<TermsOfServicePage />} />
               <Route path="/security" element={<SecurityPolicyPage />} />
+              <Route path="/compliance" element={<SecurityPolicyPage />} />
               <Route path="/cookies" element={<PrivacyPolicyPage />} />
               <Route path="/accessibility" element={<PrivacyPolicyPage />} />
 
@@ -113,6 +115,7 @@ function App() {
                 <Route path="employees" element={<EmployeeManagementPage />} />
                 <Route path="employees/:id" element={<EmployeeDetailPage />} />
                 <Route path="attendance" element={<AdminAttendancePage />} />
+                <Route path="leave" element={<LeaveApprovalsPage />} />
                 <Route path="leave-approvals" element={<LeaveApprovalsPage />} />
                 <Route path="payroll" element={<AdminPayrollPage />} />
                 <Route path="reports" element={<AdminReportsPage />} />
@@ -121,7 +124,10 @@ function App() {
               </Route>
 
               {/* System Routes */}
+              <Route path="/403" element={<AccessDeniedPage />} />
               <Route path="/access-denied" element={<AccessDeniedPage />} />
+              <Route path="/404" element={<NotFoundPage />} />
+              <Route path="/error" element={<ErrorPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </BrowserRouter>
